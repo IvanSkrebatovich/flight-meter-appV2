@@ -1,16 +1,1 @@
-[
-    {
-        "userId": "000000000000000002",
-        "firstName": "Ivan",
-        "lastName": "Skrebatovich",
-        "phone": "375295099999",
-        "email": "iskrebatovich@gmail.com"
-    },
-    {
-        "userId": "000000000000000003",
-        "firstName": "John",
-        "lastName": "Wick",
-        "phone": "375295099998",
-        "email": "john@gmail.com"
-    }
-]
+[{"userId":"000000000000000002","firstName":"Ivan","lastName":"Skrebatovich","phone":"375295099999","email":"iskrebatovich@gmail.com"},{"userId":"000000000000000003","firstName":"John","lastName":"Wick","phone":"375295099998","email":"john@gmail.com"},{"userId":"000000000000000000","firstName":"Test user","lastName":"Test user","phone":"375290000000","email":"test@gmail.com"},{"userId":"000000000000000004","firstName":"Don","lastName":"Gon Don","phone":"375290000022","email":"don@gmail.com"},{"userId":"000000000000000005","firstName":"Tom","lastName":"Jerry","phone":"375290000055","email":"tomjerry@gmail.com"}]
