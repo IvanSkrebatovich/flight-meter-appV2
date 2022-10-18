@@ -1,4 +1,4 @@
-const users = require("./users");
+let users = require("./users");
 const { writeDataToFile } = require("./userMockEngine");
 
 function findAll() {
@@ -23,8 +23,27 @@ function create(user) {
     });
 }
 
+function update(userId, user) {
+    return new Promise((resolve, reject) => {
+        const index = users.findIndex((u) => u.userId === userId);
+        users[index] = { userId, ...user };
+        writeDataToFile("./users.json", users);
+        resolve(users[index]);
+    });
+}
+
+function remove(userId) {
+    return new Promise((resolve, reject) => {
+        users = users.filter((u) => u.userId !== userId);
+        writeDataToFile("./users.json", users);
+        resolve();
+    });
+}
+
 module.exports = {
     findAll,
     findById,
     create,
+    update,
+    remove,
 };
