@@ -1,20 +1,20 @@
 const http = require("http");
-const { getListOfUsersHandler, getUserByIdHandler, postUserByIdHandler, putUserByIdHandler, deleteUserByIdHandler } = require("./userController");
+const UserController = require("./UserController");
 
 const server = http.createServer((req, res) => {
     if (req.url === "/users" && req.method === "GET") {
-        getListOfUsersHandler(req, res);
+        UserController.getListOfUsersHandler(req, res);
     } else if (req.url.match(/\/users\/([0-9]+)/) && req.method === "GET") {
         const id = req.url.split("/")[2];
-        getUserByIdHandler(req, res, id);
+        UserController.getUserByIdHandler(req, res, id);
     } else if (req.url === "/users" && req.method === "POST") {
-        postUserByIdHandler(req, res);
+        UserController.postUserByIdHandler(req, res);
     } else if (req.url.match(/\/users\/([0-9]+)/) && req.method === "PUT") {
         const userId = req.url.split("/")[2];
-        putUserByIdHandler(req, res, userId);
+        UserController.putUserByIdHandler(req, res, userId);
     } else if (req.url.match(/\/users\/([0-9]+)/) && req.method === "DELETE") {
         const userId = req.url.split("/")[2];
-        deleteUserByIdHandler(req, res, userId);
+        UserController.deleteUserByIdHandler(req, res, userId);
     } else {
         res.writeHead(404, { "Content-Type": "application/json" });
         res.end(JSON.stringify({ message: "Route Not Found" }));
