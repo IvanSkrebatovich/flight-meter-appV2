@@ -1,49 +1,49 @@
 let users = require("./users");
-const { writeDataToFile } = require("./userMockEngine");
+const { write } = require("./userMockEngine");
 
-function findAll() {
+function getListOfUsers() {
     return new Promise((resolve, reject) => {
         resolve(users);
     });
 }
 
-function findById(userId) {
+function getUserById(userId) {
     return new Promise((resolve, reject) => {
         const user = users.find((u) => u.userId === userId);
         resolve(user);
     });
 }
 
-function create(user) {
+function postUserById(user) {
     return new Promise((resolve, reject) => {
         const newUser = { ...user };
         users.push(newUser);
-        writeDataToFile("./users.json", users);
+        write("./users.json", users);
         resolve(newUser);
     });
 }
 
-function update(userId, user) {
+function putUserById(userId, user) {
     return new Promise((resolve, reject) => {
         const index = users.findIndex((u) => u.userId === userId);
         users[index] = { userId, ...user };
-        writeDataToFile("./users.json", users);
+        write("./users.json", users);
         resolve(users[index]);
     });
 }
 
-function remove(userId) {
+function deleteUserById(userId) {
     return new Promise((resolve, reject) => {
         users = users.filter((u) => u.userId !== userId);
-        writeDataToFile("./users.json", users);
+        write("./users.json", users);
         resolve();
     });
 }
 
 module.exports = {
-    findAll,
-    findById,
-    create,
-    update,
-    remove,
+    getListOfUsers,
+    getUserById,
+    postUserById,
+    putUserById,
+    deleteUserById,
 };

@@ -1,11 +1,11 @@
 const User = require("./userModel");
 
-const { getPostData } = require("./userMockEngine");
+const { getPostData, read } = require("./userMockEngine");
 
 // GET all users
-async function getUsers(req, res) {
+async function getListOfUsersHandler(req, res) {
     try {
-        const users = await User.findAll();
+        const users = await User.getListOfUsers();
 
         res.writeHead(200, { "Content-Type": "application/json" });
         res.end(JSON.stringify(users));
@@ -15,9 +15,9 @@ async function getUsers(req, res) {
 }
 
 // GET user by Id
-async function getUser(req, res, userId) {
+async function getUserByIdHandler(req, res, userId) {
     try {
-        const user = await User.findById(userId);
+        const user = await User.getUserById(userId);
 
         if (!user) {
             res.writeHead(404, { "Content-Type": "application/json" });
@@ -32,9 +32,9 @@ async function getUser(req, res, userId) {
 }
 
 // POST create new user
-async function createUser(req, res) {
+async function postUserByIdHandler(req, res) {
     try {
-        const body = await getPostData(req);
+        const body = await read(req);
 
         const { userId, firstName, lastName, phone, email } = JSON.parse(body);
 
@@ -45,7 +45,7 @@ async function createUser(req, res) {
             phone,
             email,
         };
-        const newUser = await User.create(user);
+        const newUser = await User.postUserById(user);
 
         res.writeHead(201, { "Content-Type": "application/json" });
         return res.end(JSON.stringify(newUser));
@@ -55,15 +55,15 @@ async function createUser(req, res) {
 }
 
 // PUT update user by Id
-async function updateUser(req, res, userId) {
+async function putUserByIdHandler(req, res, userId) {
     try {
-        const user = await User.findById(userId);
+        const user = await User.getUserById(userId);
 
         if (!user) {
             res.writeHead(404, { "Content-Type": "application/json" });
             res.end(JSON.stringify({ message: "User Not Found" }));
         } else {
-            const body = await getPostData(req);
+            const body = await read(req);
 
             const { userId, firstName, lastName, phone, email } = JSON.parse(body);
 
@@ -74,7 +74,7 @@ async function updateUser(req, res, userId) {
                 phone: phone || user.phone,
                 email: email || user.email,
             };
-            const updUser = await User.update(userId, userData);
+            const updUser = await User.putUserById(userId, userData);
 
             res.writeHead(200, { "Content-Type": "application/json" });
             return res.end(JSON.stringify(updUser));
@@ -85,15 +85,15 @@ async function updateUser(req, res, userId) {
 }
 
 // DELETE user by Id
-async function deleteUser(req, res, userId) {
+async function deleteUserByIdHandler(req, res, userId) {
     try {
-        const user = await User.findById(userId);
+        const user = await User.getUserById(userId);
 
         if (!user) {
             res.writeHead(404, { "Content-Type": "application/json" });
             res.end(JSON.stringify({ message: "User Not Found" }));
         } else {
-            await User.remove(userId);
+            await User.deleteUserById(userId);
             res.writeHead(200, { "Content-Type": "application/json" });
             res.end(JSON.stringify({ message: `User ${userId} removed` }));
         }
@@ -103,9 +103,9 @@ async function deleteUser(req, res, userId) {
 }
 
 module.exports = {
-    getUsers,
-    getUser,
-    createUser,
-    updateUser,
-    deleteUser,
+    getListOfUsersHandler,
+    getUserByIdHandler,
+    postUserByIdHandler,
+    putUserByIdHandler,
+    deleteUserByIdHandler,
 };
