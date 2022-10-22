@@ -1,7 +1,7 @@
-let users = require("./users");
-const UserMockEngine = require("./UserMockEngine");
+import users from './users';
+import UserMockEngine from './UserMockEngine'
 
-class UserModel {
+export default class UserModel {
     static getListOfUsers() {
         return new Promise((resolve, reject) => {
             resolve(users);
@@ -42,4 +42,3 @@ class UserModel {
     }
 }
 
-module.exports = UserModel;
