@@ -1,15 +1,13 @@
 const UserModel = require("./UserModel");
-
 const UserMockEngine = require("./UserMockEngine");
 
-class UserController {
+export default class UserController {
     // GET all users
     static async getListOfUsersHandler(req, res) {
         try {
-            const users = await UserModel.getListOfUsers();
-
+            const data = await UserModel.getListOfUsers();
             res.writeHead(200, { "Content-Type": "application/json" });
-            res.end(JSON.stringify(users));
+            res.end(data);
         } catch {
             console.log(error);
         }
@@ -19,10 +17,10 @@ class UserController {
     static async getUserByIdHandler(req, res, userId) {
         try {
             const user = await UserModel.getUserById(userId);
-
             if (!user) {
                 res.writeHead(404, { "Content-Type": "application/json" });
-                res.end(JSON.stringify({ message: "User Not Found" }));
+                const data = { message: "User Not Found" }
+                res.end(data);
             } else {
                 res.writeHead(200, { "Content-Type": "application/json" });
                 res.end(JSON.stringify(user));
@@ -104,4 +102,3 @@ class UserController {
     }
 }
 
-module.exports = UserController;
