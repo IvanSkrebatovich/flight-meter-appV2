@@ -1,5 +1,5 @@
 // import data from '../mock/user.json' assert { type: 'json' };
-import MockEngine from '../mock/MockEngine.mjs'
+import MockEngine from "../mock/MockEngine.mjs";
 
 export default class UserModel {
     static getListOfUsers() {
@@ -7,49 +7,42 @@ export default class UserModel {
             resolve(MockEngine.read());
         });
     }
-    
 
     // static async getUserById(userId) {
     //     return new Promise((resolve, reject) => {
     //         const allUsers = MockEngine.read();
     //         console.log(allUsers)
     //         //let user = allUsers.find((u) => u.userId === userId);
-            
+
     //         resolve(user);
     //     });
     // }
 
-    static async getUserById(userId){
+    static async getUserById(userId) {
         const allUsers = await MockEngine.read();
         let user = allUsers.find((u) => u.userId === userId);
         return user;
     }
 
-
-    static postUserById(user) {
-        return new Promise((resolve, reject) => {
-            const newUser = { ...user };
-            data.push(newUser);
-            UserMockEngine.write("../mock/user.json", user);
-            resolve(newUser);
-        });
+    static async postUserById(user) {
+        const newUser = { ...user };
+        const data = await MockEngine.read();
+        data.push(newUser);
+        MockEngine.write("./mock/user.json", data);
+        return newUser;
     }
 
-    static putUserById(userId, user) {
-        return new Promise((resolve, reject) => {
-            const index = data.findIndex((u) => u.userId === userId);
-            data[index] = { userId, ...user };
-            UserMockEngine.write("../mock/user.json", user);
-            resolve(users[index]);
-        });
+    static async putUserById(userId, user) {
+        const data = await MockEngine.read();
+        const index = data.findIndex((u) => u.userId === userId);
+        data[index] = { userId, ...user };
+        MockEngine.write("./mock/user.json", data);
+        return data[index];
     }
 
-    static deleteUserById(userId) {
-        return new Promise((resolve, reject) => {
-            users = data.filter((u) => u.userId !== userId);
-            UserMockEngine.write("../mock/user.json", user);
-            resolve();
-        });
+    static async deleteUserById(userId) {
+        let data = await MockEngine.read();
+        data = data.filter((u) => u.userId !== userId);
+        MockEngine.write("./mock/user.json", data);
     }
 }
-

@@ -1,6 +1,5 @@
 import fs from "fs";
 
-
 export default class MockEngine {
     static write(filename, content) {
         fs.writeFileSync(filename, JSON.stringify(content), "utf8", (err) => {
@@ -22,9 +21,7 @@ export default class MockEngine {
         });
     }
 
-    // Deprecated/////////////
-
-    // static read(req) {
+    // static getPostData(req) {
     //     return new Promise((resolve, reject) => {
     //         try {
     //             let body = "";

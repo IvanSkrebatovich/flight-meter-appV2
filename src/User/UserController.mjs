@@ -1,14 +1,15 @@
 import UserModel from "./UserModel.mjs";
+import UserHelper from "./UserHelper.mjs";
 //import UserMockEngine from "../mock/MockEngine.mjs";
 
- export default class UserController {
+export default class UserController {
     // GET all users
     static async getListOfUsersHandler(req, res) {
         try {
             const data = await UserModel.getListOfUsers();
             res.writeHead(200, { "Content-Type": "application/json" });
-            res.end(JSON.parse(data));
-            } catch(error) {
+            res.end(JSON.stringify(data));
+        } catch (error) {
             console.log(error);
         }
     }
@@ -19,13 +20,13 @@ import UserModel from "./UserModel.mjs";
             const data = await UserModel.getUserById(userId);
             if (!data) {
                 res.writeHead(404, { "Content-Type": "application/json" });
-                const data = { message: "User Not Found" }
+                const data = { message: "User Not Found" };
                 res.end(JSON.stringify(data));
             } else {
                 res.writeHead(200, { "Content-Type": "application/json" });
                 res.end(JSON.stringify(data));
             }
-        } catch(error) {
+        } catch (error) {
             console.log(error);
         }
     }
@@ -33,7 +34,7 @@ import UserModel from "./UserModel.mjs";
     // POST create new user
     static async postUserByIdHandler(req, res) {
         try {
-            const body = await UserMockEngine.read(req);
+            const body = await UserHelper.getPostData(req);
 
             const { userId, firstName, lastName, phone, email } = JSON.parse(body);
 
@@ -44,6 +45,7 @@ import UserModel from "./UserModel.mjs";
                 phone,
                 email,
             };
+
             const newUser = await UserModel.postUserById(user);
 
             res.writeHead(201, { "Content-Type": "application/json" });
@@ -62,7 +64,7 @@ import UserModel from "./UserModel.mjs";
                 res.writeHead(404, { "Content-Type": "application/json" });
                 res.end(JSON.stringify({ message: "User Not Found" }));
             } else {
-                const body = await UserMockEngine.read(req);
+                const body = await UserHelper.getPostData(req);
 
                 const { userId, firstName, lastName, phone, email } = JSON.parse(body);
 
@@ -101,4 +103,3 @@ import UserModel from "./UserModel.mjs";
         }
     }
 }
-
