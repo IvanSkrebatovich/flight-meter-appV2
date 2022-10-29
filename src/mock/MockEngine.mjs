@@ -20,24 +20,4 @@ export default class MockEngine {
             }
         });
     }
-
-    // static getPostData(req) {
-    //     return new Promise((resolve, reject) => {
-    //         try {
-    //             let body = "";
-    //             req.on("data", (chunk) => {
-    //                 body += chunk.toString();
-    //             });
-    //             const data = JSON.stringify(body);
-    //             req.on("end", () => {
-    //                 resolve(data);
-    //             });
-    //         } catch (error) {
-    //             reject({
-    //                 success: false,
-    //                 error,
-    //             });
-    //         }
-    //     });
-    // }
 }
