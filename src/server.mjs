@@ -1,5 +1,5 @@
-const http = require("http");
-const UserController = require("./UserController");
+import http from "http";
+import UserController from "./User/UserController.mjs";
 
 const server = http.createServer((req, res) => {
     if (req.url === "/users" && req.method === "GET") {
