@@ -13,7 +13,6 @@ export default class UserModel {
     //         const allUsers = MockEngine.read();
     //         console.log(allUsers)
     //         //let user = allUsers.find((u) => u.userId === userId);
-
     //         resolve(user);
     //     });
     // }
@@ -26,9 +25,9 @@ export default class UserModel {
 
     static async postUserById(user) {
         const newUser = { ...user };
+        // validate email,
         const data = await MockEngine.read();
-        data.push(newUser);
-        MockEngine.write("./mock/user.json", data);
+        MockEngine.write("./mock/user.json", [...data, newUser]);
         return newUser;
     }
 

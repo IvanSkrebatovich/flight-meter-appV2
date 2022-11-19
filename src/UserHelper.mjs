@@ -1,9 +1,10 @@
+// this is APPLICATION level helper
+// TODO: rename accordingly and locate acordingly
 export default class UserHelper {
     static async getPostData(req) {
         return new Promise((resolve, reject) => {
             try {
                 let body = "";
-
                 req.on("data", (chunk) => {
                     body += chunk.toString();
                 });

@@ -1,12 +1,23 @@
 import UserModel from "./UserModel.mjs";
-import UserHelper from "./UserHelper.mjs";
+import UserHelper from "../UserHelper.mjs";
 //import UserMockEngine from "../mock/MockEngine.mjs";
 
 export default class UserController {
+    // TODO:
+    // getListOfUsers
+    // getUserById
+    // both methods have to return []
+
     // GET all users
-    static async getListOfUsersHandler(req, res) {
+    static async getUserHandler(req, res) {
         try {
-            const data = await UserModel.getListOfUsers();
+            // const ID = req...
+            const data = await UserModel.getUser(userId);
+            // -------------------------
+            // readUser(ID) -> list + 1user
+            // readUser() -> list
+            // [{}]
+            // -------------------------
             res.writeHead(200, { "Content-Type": "application/json" });
             res.end(JSON.stringify(data));
         } catch (error) {
@@ -14,40 +25,35 @@ export default class UserController {
         }
     }
 
-    // GET user by Id
-    static async getUserByIdHandler(req, res, userId) {
-        try {
-            const data = await UserModel.getUserById(userId);
-            if (!data) {
-                res.writeHead(404, { "Content-Type": "application/json" });
-                const data = { message: "User Not Found" };
-                res.end(JSON.stringify(data));
-            } else {
-                res.writeHead(200, { "Content-Type": "application/json" });
-                res.end(JSON.stringify(data));
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    // // GET user by Id
+    // static async getUserByIdHandler(req, res, userId) {
+    //     try {
+    //         const data = await UserModel.getUserById(userId);
+    //         // [{}]
+    //         // {}
+    //         if (!data) {
+    //             res.writeHead(404, { "Content-Type": "application/json" });
+    //             const data = { message: "Not Found" };
+    //             res.end(JSON.stringify(data));
+    //         } else {
+    //             res.writeHead(200, { "Content-Type": "application/json" });
+    //             res.end(JSON.stringify(data));
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
     // POST create new user
     static async postUserByIdHandler(req, res) {
         try {
             const body = await UserHelper.getPostData(req);
-
+            // create UNIQ userId here
+            // + validation
             const { userId, firstName, lastName, phone, email } = JSON.parse(body);
-
-            const user = {
-                userId,
-                firstName,
-                lastName,
-                phone,
-                email,
-            };
-
+            const user = { userId, firstName, lastName, phone, email };
             const newUser = await UserModel.postUserById(user);
-
+            // todo: MODEL > CRUD (naming convention)
             res.writeHead(201, { "Content-Type": "application/json" });
             return res.end(JSON.stringify(newUser));
         } catch (error) {

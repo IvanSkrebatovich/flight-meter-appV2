@@ -1,25 +1,37 @@
-import http from "http";
-import UserController from "./User/UserController.mjs";
+import http from 'http';
+import UserController from './User/UserController.mjs';
 
 const server = http.createServer((req, res) => {
-    if (req.url === "/users" && req.method === "GET") {
+    // TODO: switch / case / default / break
+    if        (parseHelper(req, '/users', 'GET')) {
+        // /user/list
         UserController.getListOfUsersHandler(req, res);
-    } else if (req.url.match(/\/users\/([0-9]+)/) && req.method === "GET") {
-        const id = req.url.split("/")[2];
-        UserController.getUserByIdHandler(req, res, id);
-    } else if (req.url === "/users" && req.method === "POST") {
+    } else if (parseHelper(req, '/users', 'GET')) {
+        // /user/[ID]
+        // id: 1231FFFDDEE232
+        // const id = req.url.split('/')[2];
+        UserController.getUserByIdHandler(req, res);
+    } else if (parseHelper(req, '/users', 'GET')) {
+        // /user/create
         UserController.postUserByIdHandler(req, res);
-    } else if (req.url.match(/\/users\/([0-9]+)/) && req.method === "PUT") {
-        const userId = req.url.split("/")[2];
-        UserController.putUserByIdHandler(req, res, userId);
-    } else if (req.url.match(/\/users\/([0-9]+)/) && req.method === "DELETE") {
-        const userId = req.url.split("/")[2];
+    } else if (parseHelper(req, '/users', 'GET')) {
+        // /user/[ID]
+        const userId = req.url.split('/')[2];
+        UserController.putUserByIdHandler(req, res);
+    } else if (parseHelper(req, '/users', 'GET')) {
+        // /user/[ID]
+        const userId = req.url.split('/')[2];
         UserController.deleteUserByIdHandler(req, res, userId);
     } else {
-        res.writeHead(404, { "Content-Type": "application/json" });
-        res.end(JSON.stringify({ message: "Route Not Found" }));
+        // default
+        res.writeHead(404, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'Route Not Found' }));
     }
 });
+
+function parseHelper(req, url, method) {
+    return req.url.match(url) && req.method === method;
+}
 
 const PORT = process.env.PORT || 3000;
 
