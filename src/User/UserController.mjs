@@ -1,6 +1,5 @@
-import UserModel from "./UserModel.mjs";
-import UserHelper from "../UserHelper.mjs";
-//import UserMockEngine from "../mock/MockEngine.mjs";
+import UserModel from './UserModel.mjs';
+import RequestHelper from '../RequestHelper.mjs';
 
 export default class UserController {
     // TODO:
@@ -11,14 +10,16 @@ export default class UserController {
     // GET all users
     static async getUserHandler(req, res) {
         try {
-            // const ID = req...
-            const data = await UserModel.getUser(userId);
+            const userId = req.url.split('/')[2];
+            console.log(userId);
+
+            const data = await UserModel.readAllUsers(userId);
             // -------------------------
             // readUser(ID) -> list + 1user
             // readUser() -> list
             // [{}]
             // -------------------------
-            res.writeHead(200, { "Content-Type": "application/json" });
+            res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify(data));
         } catch (error) {
             console.log(error);
@@ -47,14 +48,14 @@ export default class UserController {
     // POST create new user
     static async postUserByIdHandler(req, res) {
         try {
-            const body = await UserHelper.getPostData(req);
+            const body = await RequestHelper.getRequestData(req);
             // create UNIQ userId here
             // + validation
             const { userId, firstName, lastName, phone, email } = JSON.parse(body);
             const user = { userId, firstName, lastName, phone, email };
             const newUser = await UserModel.postUserById(user);
             // todo: MODEL > CRUD (naming convention)
-            res.writeHead(201, { "Content-Type": "application/json" });
+            res.writeHead(201, { 'Content-Type': 'application/json' });
             return res.end(JSON.stringify(newUser));
         } catch (error) {
             console.log(error);
@@ -67,10 +68,10 @@ export default class UserController {
             const user = await UserModel.getUserById(userId);
 
             if (!user) {
-                res.writeHead(404, { "Content-Type": "application/json" });
-                res.end(JSON.stringify({ message: "User Not Found" }));
+                res.writeHead(404, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ message: 'User Not Found' }));
             } else {
-                const body = await UserHelper.getPostData(req);
+                const body = await RequestHelper.getRequestData(req);
 
                 const { userId, firstName, lastName, phone, email } = JSON.parse(body);
 
@@ -83,7 +84,7 @@ export default class UserController {
                 };
                 const updUser = await UserModel.putUserById(userId, userData);
 
-                res.writeHead(200, { "Content-Type": "application/json" });
+                res.writeHead(200, { 'Content-Type': 'application/json' });
                 return res.end(JSON.stringify(updUser));
             }
         } catch (error) {
@@ -97,11 +98,11 @@ export default class UserController {
             const user = await UserModel.getUserById(userId);
 
             if (!user) {
-                res.writeHead(404, { "Content-Type": "application/json" });
-                res.end(JSON.stringify({ message: "User Not Found" }));
+                res.writeHead(404, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ message: 'User Not Found' }));
             } else {
                 await UserModel.deleteUserById(userId);
-                res.writeHead(200, { "Content-Type": "application/json" });
+                res.writeHead(200, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ message: `User ${userId} removed` }));
             }
         } catch (error) {

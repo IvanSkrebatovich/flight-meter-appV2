@@ -1,14 +1,14 @@
 // this is APPLICATION level helper
-// TODO: rename accordingly and locate acordingly
+// TODO: rename accordingly and locate accordingly
 export default class UserHelper {
-    static async getPostData(req) {
+    static async getRequestData(req) {
         return new Promise((resolve, reject) => {
             try {
-                let body = "";
-                req.on("data", (chunk) => {
+                let body = '';
+                req.on('data', (chunk) => {
                     body += chunk.toString();
                 });
-                req.on("end", () => {
+                req.on('end', () => {
                     resolve(body);
                 });
             } catch (error) {

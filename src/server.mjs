@@ -3,14 +3,14 @@ import UserController from './User/UserController.mjs';
 
 const server = http.createServer((req, res) => {
     // TODO: switch / case / default / break
-    if        (parseHelper(req, '/users', 'GET')) {
+    if (parseHelper(req, '/user/list', 'GET')) {
         // /user/list
-        UserController.getListOfUsersHandler(req, res);
-    } else if (parseHelper(req, '/users', 'GET')) {
+        UserController.getUserHandler(req, res);
+    } else if (parseHelper(req, '/user/([0-9]+)', 'GET')) {
         // /user/[ID]
         // id: 1231FFFDDEE232
         // const id = req.url.split('/')[2];
-        UserController.getUserByIdHandler(req, res);
+        UserController.getUserHandler(req, res);
     } else if (parseHelper(req, '/users', 'GET')) {
         // /user/create
         UserController.postUserByIdHandler(req, res);

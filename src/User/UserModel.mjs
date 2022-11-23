@@ -1,33 +1,24 @@
-// import data from '../mock/user.json' assert { type: 'json' };
-import MockEngine from "../mock/MockEngine.mjs";
+import MockEngine from '../mock/MockEngine.mjs';
 
 export default class UserModel {
-    static getListOfUsers() {
-        return new Promise((resolve, reject) => {
-            resolve(MockEngine.read());
-        });
-    }
 
-    // static async getUserById(userId) {
+    // static readAllUsers() {
     //     return new Promise((resolve, reject) => {
-    //         const allUsers = MockEngine.read();
-    //         console.log(allUsers)
-    //         //let user = allUsers.find((u) => u.userId === userId);
-    //         resolve(user);
+    //         resolve(MockEngine.read());
     //     });
     // }
 
-    static async getUserById(userId) {
+    static async readAllUsers(userId) {
         const allUsers = await MockEngine.read();
         let user = allUsers.find((u) => u.userId === userId);
-        return user;
+        return {...user};
     }
 
     static async postUserById(user) {
         const newUser = { ...user };
         // validate email,
         const data = await MockEngine.read();
-        MockEngine.write("./mock/user.json", [...data, newUser]);
+        MockEngine.write('./mock/user.json', [...data, newUser]);
         return newUser;
     }
 
@@ -35,13 +26,13 @@ export default class UserModel {
         const data = await MockEngine.read();
         const index = data.findIndex((u) => u.userId === userId);
         data[index] = { userId, ...user };
-        MockEngine.write("./mock/user.json", data);
+        MockEngine.write('./mock/user.json', data);
         return data[index];
     }
 
     static async deleteUserById(userId) {
         let data = await MockEngine.read();
         data = data.filter((u) => u.userId !== userId);
-        MockEngine.write("./mock/user.json", data);
+        MockEngine.write('./mock/user.json', data);
     }
 }
