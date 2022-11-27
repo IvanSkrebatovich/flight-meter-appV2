@@ -13,7 +13,7 @@ export default class MockEngine {
         return new Promise((resolve, reject) => {
             try {
                 fs.readFile('./mock/user.json', 'utf8', (err, data) => {
-                    console.log(typeof(JSON.parse(data)));
+                    //console.log(typeof(JSON.parse(data)));
                     resolve(JSON.parse(data));
                 });
             } catch (error) {

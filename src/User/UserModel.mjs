@@ -2,16 +2,16 @@ import MockEngine from '../mock/MockEngine.mjs';
 
 export default class UserModel {
 
-    // static readAllUsers() {
-    //     return new Promise((resolve, reject) => {
-    //         resolve(MockEngine.read());
-    //     });
-    // }
+    static async readAllUsers() {
+        return new Promise((resolve, reject) => {
+            resolve(MockEngine.read());
+        });
+    }
 
-    static async readAllUsers(userId) {
+    static async readUser(userId) {
         const allUsers = await MockEngine.read();
         let user = allUsers.find((u) => u.userId === userId);
-        return {...user};
+        return user;
     }
 
     static async postUserById(user) {

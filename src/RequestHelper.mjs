@@ -1,6 +1,6 @@
 // this is APPLICATION level helper
 // TODO: rename accordingly and locate accordingly
-export default class UserHelper {
+export default class RequestHelper {
     static async getRequestData(req) {
         return new Promise((resolve, reject) => {
             try {

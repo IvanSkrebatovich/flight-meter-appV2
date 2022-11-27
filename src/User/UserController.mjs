@@ -10,17 +10,28 @@ export default class UserController {
     // GET all users
     static async getUserHandler(req, res) {
         try {
+            let data;
             const userId = req.url.split('/')[2];
-            console.log(userId);
+            console.log(userId.length);
+            if (userId.length === 18) {
+                data = await UserModel.readUser(userId);
+            } else {
+                data = await UserModel.readAllUsers();
+            }
 
-            const data = await UserModel.readAllUsers(userId);
             // -------------------------
             // readUser(ID) -> list + 1user
             // readUser() -> list
             // [{}]
             // -------------------------
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify(data));
+            if (!data) {
+                res.writeHead(404, { 'Content-Type': 'application/json' });
+                const data = { message: 'Not Found' };
+                res.end(JSON.stringify(data));
+            } else {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(data));
+            }
         } catch (error) {
             console.log(error);
         }
